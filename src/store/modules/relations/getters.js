@@ -1,10 +1,16 @@
 export function m2o(state, getters, { collections }) {
-  return function(collection, field) {
-    const results = state.filter(
-      relation => relation.collection_many === collection && relation.field_many === field
-    );
+  return function(collection, field, relation = null) {
+    let result;
 
-    const result = results ? results[results.length - 1] : null;
+    if (relation === null) {
+      const results = state.filter(
+        relation => relation.collection_many === collection && relation.field_many === field
+      );
+
+      result = results ? results[results.length - 1] : null;
+    } else {
+      result = relation;
+    }
 
     if (result) {
       return {
